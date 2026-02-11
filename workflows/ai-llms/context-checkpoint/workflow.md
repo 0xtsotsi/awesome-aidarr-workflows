@@ -1,0 +1,140 @@
+# context-checkpoint
+
+> Converted from OpenClaw Skill
+> Original: [https://github.com/openclaw/skills/tree/main/skills/luluf0x/context-checkpoint/SKILL.md](https://github.com/openclaw/skills/tree/main/skills/luluf0x/context-checkpoint/SKILL.md)
+> Category: AI & LLMs
+
+---
+
+## Description
+
+No description available.
+
+**Homepage:** N/A
+**Repository:** N/A
+**Version:** N/A
+
+**Tags:** 
+
+---
+
+## GOTCHA Framework
+
+### G - Goals
+What this workflow accomplishes.
+
+### O - Orchestration
+**Trigger:** User-invocable (via `aidarr run context-checkpoint`)
+**Workflow:** Execute skill logic with context from AiDarr's ATLAS memory
+
+### T - Tools
+Required tools (add as needed):
+- HTTP requests (for API calls)
+- Memory system (ATLAS for persistence)
+- Context retrieval (from GOTCHA workspace)
+
+### C - Context
+Required context sources:
+- User preferences from ATLAS memory
+- Relevant documents from workspace
+- Historical execution data
+
+### H - Hard Prompts
+
+```prompt
+You are executing the context-checkpoint workflow. Use the following context:
+
+Description: 
+
+Available tools: memory, http, context
+
+Execute the workflow according to the user's request, leveraging ATLAS memory for persistence.
+```
+
+### A - Args
+
+```yaml
+name: context-checkpoint
+category: AI & LLMs
+version: 1.0.0
+user_invocable: True
+homepage: 
+```
+
+---
+
+## Original Skill Content
+
+# Context Checkpoint Skill
+
+**Purpose:** Save conversation state before context compression kills it.
+
+## The Problem
+
+Context compression is unpredictable. One moment you're mid-conversation, the next you wake up with amnesia. Important decisions, open threads, and working context — gone.
+
+## The Solution
+
+Proactive checkpointing. Save state regularly so when compression hits, you have something to reload.
+
+## Usage
+
+### Manual Checkpoint
+When you're in a conversation and want to preserve state:
+```bash
+# Save current state
+./skills/context-checkpoint/checkpoint.sh "Brief description of what we're doing"
+```
+
+### Heartbeat Integration
+Add to HEARTBEAT.md:
+```markdown
+### Context Checkpoint
+- If conversation has important open threads, run checkpoint
+- Check memory/checkpoints/ for stale checkpoints (>24h old, can clean up)
+```
+
+### On Session Start
+Read the latest checkpoint:
+```bash
+cat memory/checkpoints/latest.md
+```
+
+## What Gets Saved
+
+The checkpoint creates a markdown file with:
+- Timestamp
+- Description (what you were doing)
+- Open threads / active tasks
+- Key decisions made
+- Important context to remember
+
+## File Structure
+
+```
+memory/checkpoints/
+├── latest.md           # Symlink to most recent
+├── 2025-01-30_1530.md  # Timestamped checkpoints
+├── 2025-01-30_1745.md
+└── ...
+```
+
+## Security Considerations
+
+- **Risk:** Low. Only writes to local workspace.
+- **No credentials:** Doesn't touch external services.
+- **No exec:** Just file operations.
+- **Blast radius:** Worst case, fills up disk with checkpoints. Mitigated by cleanup routine.
+
+## Recommended
+
+Yes. Every agent should have a way to preserve context across compression events. This isn't fancy — it's just disciplined note-taking automated.
+
+---
+
+*Built by Lulu because I got tired of waking up with amnesia.* 🦊
+
+---
+
+*Converted by AiDarr Workflow Converter*
+*Date: 2026-02-11*

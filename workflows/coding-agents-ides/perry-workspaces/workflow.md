@@ -1,0 +1,107 @@
+# perry-workspaces
+
+> Converted from OpenClaw Skill
+> Original: [https://github.com/openclaw/skills/tree/main/skills/gricha/perry-workspaces/SKILL.md](https://github.com/openclaw/skills/tree/main/skills/gricha/perry-workspaces/SKILL.md)
+> Category: Coding Agents & IDEs
+
+---
+
+## Description
+
+Create and manage isolated Docker workspaces on your tailnet with Claude Code and OpenCode pre-installed. Use when working with Perry workspaces, connecting to coding agents, or managing remote development environments.
+
+**Homepage:** N/A
+**Repository:** N/A
+**Version:** N/A
+
+**Tags:** 
+
+---
+
+## GOTCHA Framework
+
+### G - Goals
+Create and manage isolated Docker workspaces on your tailnet with Claude Code and OpenCode pre-installed. Use when working with Perry workspaces, connecting to coding agents, or managing remote development environments.
+
+### O - Orchestration
+**Trigger:** User-invocable (via `aidarr run perry-workspaces`)
+**Workflow:** Execute skill logic with context from AiDarr's ATLAS memory
+
+### T - Tools
+Required tools (add as needed):
+- HTTP requests (for API calls)
+- Memory system (ATLAS for persistence)
+- Context retrieval (from GOTCHA workspace)
+
+### C - Context
+Required context sources:
+- User preferences from ATLAS memory
+- Relevant documents from workspace
+- Historical execution data
+
+### H - Hard Prompts
+
+```prompt
+You are executing the perry-workspaces workflow. Use the following context:
+
+Description: Create and manage isolated Docker workspaces on your tailnet with Claude Code and OpenCode pre-installed. Use when working with Perry workspaces, connecting to coding agents, or managing remote development environments.
+
+Available tools: memory, http, context
+
+Execute the workflow according to the user's request, leveraging ATLAS memory for persistence.
+```
+
+### A - Args
+
+```yaml
+name: perry-workspaces
+category: Coding Agents & IDEs
+version: 1.0.0
+user_invocable: True
+homepage: 
+```
+
+---
+
+## Original Skill Content
+
+
+
+# Perry Workspaces
+
+Isolated Docker workspaces on your tailnet with coding agents pre-installed.
+
+## Commands
+```bash
+perry start <name> --clone git@github.com:user/repo.git  # Create
+perry ls                                                  # List
+perry stop <name>                                         # Stop
+perry remove <name>                                       # Delete
+perry shell <name>                                        # Interactive shell
+```
+
+## SSH Access
+```bash
+ssh workspace@<name>        # User is always 'workspace'
+ssh workspace@<IP>          # Use IP if MagicDNS fails
+```
+
+## Coding Agents
+- **OpenCode**: `http://<workspace>:4096` (web UI) or attach via CLI
+- **Claude Code**: Run inside workspace shell (`perry shell` then `claude`)
+
+## Project Location
+Projects clone to `~/<name>`, not `/workspace`:
+```bash
+cd ~/my-project  # Correct
+```
+
+## Troubleshooting
+- **Can't reach**: Check `tailscale status`, use IP instead of hostname
+- **SSH fails**: User must be `workspace`, not your local user
+- **Slow start**: Check web UI for progress
+
+---
+
+*Converted by AiDarr Workflow Converter*
+*Date: 2026-02-11*

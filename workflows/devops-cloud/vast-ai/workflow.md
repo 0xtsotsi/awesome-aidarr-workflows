@@ -1,0 +1,107 @@
+# vast-ai
+
+> Converted from OpenClaw Skill
+> Original: [https://github.com/openclaw/skills/tree/main/skills/sschepis/vast-ai/SKILL.md](https://github.com/openclaw/skills/tree/main/skills/sschepis/vast-ai/SKILL.md)
+> Category: DevOps & Cloud
+
+---
+
+## Description
+
+No description available.
+
+**Homepage:** N/A
+**Repository:** N/A
+**Version:** N/A
+
+**Tags:** 
+
+---
+
+## GOTCHA Framework
+
+### G - Goals
+What this workflow accomplishes.
+
+### O - Orchestration
+**Trigger:** User-invocable (via `aidarr run vast-ai`)
+**Workflow:** Execute skill logic with context from AiDarr's ATLAS memory
+
+### T - Tools
+Required tools (add as needed):
+- HTTP requests (for API calls)
+- Memory system (ATLAS for persistence)
+- Context retrieval (from GOTCHA workspace)
+
+### C - Context
+Required context sources:
+- User preferences from ATLAS memory
+- Relevant documents from workspace
+- Historical execution data
+
+### H - Hard Prompts
+
+```prompt
+You are executing the vast-ai workflow. Use the following context:
+
+Description: 
+
+Available tools: memory, http, context
+
+Execute the workflow according to the user's request, leveraging ATLAS memory for persistence.
+```
+
+### A - Args
+
+```yaml
+name: vast-ai
+category: DevOps & Cloud
+version: 1.0.0
+user_invocable: True
+homepage: 
+```
+
+---
+
+## Original Skill Content
+
+# Skill: VAST.ai GPU Rental
+
+## Overview
+This skill allows you to provision on-demand GPU infrastructure. You must have a user-provided API Key before performing write actions.
+
+## Capabilities
+1. **Search**: Find machines by GPU model (e.g., "RTX 4090") and max hourly price.
+2. **Rent**: Instantiate a container (default: PyTorch) on a specific Offer ID.
+3. **Connect**: Retrieve the SSH connection string for an active instance.
+4. **Balance**: Check available credit and current hourly burn rate across all active machines.
+
+## Usage Protocol
+- **Step 1**: Ask the user for their VAST API Key if not already in context.
+- **Pre-flight Check**: Before renting, call `balance` to ensure the user has sufficient funds.
+- **Step 2**: Search for offers and present the top 3 cheapest options to the user.
+- **Step 3**: Upon confirmation, call `rent`.
+- **Reporting**: If credit is below $5.00, warn the user after every successful rental.
+- **Step 4**: Wait 30-60 seconds, then call `connect` to provide the SSH string.
+
+## Tool Definitions
+- `search(gpu: string, price: number)`
+- `rent(id: number, image: string)`
+- `connect(id: number)`
+- `balance()`
+
+## Execution
+Run the CLI wrapper for these tools.
+Command: `node /Users/sschepis/Development/vast-ai/dist/cli.js <action> [params]`
+Env: `VAST_API_KEY` must be set.
+
+### Examples
+- Search: `node dist/cli.js search --gpu "RTX 4090" --price 0.5`
+- Rent: `node dist/cli.js rent --id 12345 --image "pytorch/pytorch"`
+- Connect: `node dist/cli.js connect --id 12345`
+- Balance: `node dist/cli.js balance`
+
+---
+
+*Converted by AiDarr Workflow Converter*
+*Date: 2026-02-11*

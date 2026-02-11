@@ -1,0 +1,342 @@
+# odoo-openclaw-skill
+
+> Converted from OpenClaw Skill
+> Original: [https://github.com/openclaw/skills/tree/main/skills/ashrf-in/odoo-openclaw-skill/SKILL.md](https://github.com/openclaw/skills/tree/main/skills/ashrf-in/odoo-openclaw-skill/SKILL.md)
+> Category: Browser & Automation
+
+---
+
+## Description
+
+Use when the user asks for Odoo accounting audits, VAT/cashflow analysis, inventory valuation, financial reporting, compliant financial statements (P&L, Balance Sheet, Cash Flow), custom ad-hoc reports, or any financial intelligence that must come directly from Odoo via RPC with reproducible, evidence-backed numbers. Automatically detects and complies with the company's local accounting standards (IFRS, US GAAP, Ind-AS, UK GAAP, SOCPA, CAS, JGAAP, etc.).
+
+**Homepage:** N/A
+**Repository:** N/A
+**Version:** N/A
+
+**Tags:** 
+
+---
+
+## GOTCHA Framework
+
+### G - Goals
+Use when the user asks for Odoo accounting audits, VAT/cashflow analysis, inventory valuation, financial reporting, compliant financial statements (P&L, Balance Sheet, Cash Flow), custom ad-hoc reports, or any financial intelligence that must come directly from Odoo via RPC with reproducible, evidence-backed numbers. Automatically detects and complies with the company's local accounting standards (IFRS, US GAAP, Ind-AS, UK GAAP, SOCPA, CAS, JGAAP, etc.).
+
+### O - Orchestration
+**Trigger:** User-invocable (via `aidarr run odoo-openclaw-skill`)
+**Workflow:** Execute skill logic with context from AiDarr's ATLAS memory
+
+### T - Tools
+Required tools (add as needed):
+- HTTP requests (for API calls)
+- Memory system (ATLAS for persistence)
+- Context retrieval (from GOTCHA workspace)
+
+### C - Context
+Required context sources:
+- User preferences from ATLAS memory
+- Relevant documents from workspace
+- Historical execution data
+
+### H - Hard Prompts
+
+```prompt
+You are executing the odoo-openclaw-skill workflow. Use the following context:
+
+Description: Use when the user asks for Odoo accounting audits, VAT/cashflow analysis, inventory valuation, financial reporting, compliant financial statements (P&L, Balance Sheet, Cash Flow), custom ad-hoc reports, or any financial intelligence that must come directly from Odoo via RPC with reproducible, evidence-backed numbers. Automatically detects and complies with the company's local accounting standards (IFRS, US GAAP, Ind-AS, UK GAAP, SOCPA, CAS, JGAAP, etc.).
+
+Available tools: memory, http, context
+
+Execute the workflow according to the user's request, leveraging ATLAS memory for persistence.
+```
+
+### A - Args
+
+```yaml
+name: odoo-openclaw-skill
+category: Browser & Automation
+version: 1.0.0
+user_invocable: True
+homepage: 
+```
+
+---
+
+## Original Skill Content
+
+
+
+# Odoo Financial Intelligence
+
+**Read-only, Evidence-First, Ledger-Based Reports**
+
+## Security & Credentials
+
+### Required Environment Variables
+
+This skill requires Odoo connection credentials stored in `assets/autonomous-cfo/.env`:
+
+| Variable | Description | Secret |
+|----------|-------------|--------|
+| `ODOO_URL` | Odoo instance URL (e.g., `https://your-odoo.com`) | No |
+| `ODOO_DB` | Odoo database name | No |
+| `ODOO_USER` | Odoo username/email | No |
+| `ODOO_PASSWORD` | Odoo password or API key | **Yes** |
+
+**Setup:**
+```bash
+cd skills/odoo/assets/autonomous-cfo
+cp .env.example .env
+# Edit .env with your actual credentials
+nano .env
+```
+
+### Model Invocation Policy
+
+**Model invocation is DISABLED** for this skill. It must be explicitly invoked by the user.
+
+**Reason:** The skill handles sensitive financial data and connects to external Odoo instances. Autonomous invocation could expose confidential accounting data or trigger unwanted external connections.
+
+### Data Handling
+
+- **Read-only:** All mutating methods (`create`, `write`, `unlink`, etc.) are blocked at the client level
+- **No exfiltration:** Reports are generated locally in `assets/autonomous-cfo/output/`
+- **Network endpoints:** Only connects to the Odoo URL specified in `.env`
+- **Output formats:** PDF, Excel, and WhatsApp image cards (local files only)
+
+### Installation
+
+The skill requires a Python virtual environment with specific packages:
+
+```bash
+cd skills/odoo/assets/autonomous-cfo
+./install.sh
+```
+
+Or manually:
+```bash
+cd skills/odoo/assets/autonomous-cfo
+python3 -m venv venv
+./venv/bin/pip install -r requirements.txt
+```
+
+**Dependencies:** `requests`, `matplotlib`, `pillow`, `fpdf2`, `openpyxl`
+
+## Critical Rules
+
+1. **NEVER assume** - Always ask clarifying questions before generating reports
+2. **Multi-company check** - If multiple companies exist, ASK which one to use
+3. **Ledger-based** - Use Chart of Accounts and journal entries (account.move.line), not just invoice summaries
+4. **Verify periods** - Confirm date ranges with user before running
+5. **No silent defaults** - Every assumption must be confirmed
+
+## Before Any Report, Ask:
+
+1. "Which company should I use?" (if multiple exist)
+2. "What period? (from/to dates)"
+3. "Which accounts or account types to include?"
+4. "Any specific breakdown needed?" (by account, by partner, by journal, etc.)
+5. "Output format preference?" (PDF, WhatsApp cards, or both)
+
+## Entrypoint
+
+Uses the venv with fpdf2, matplotlib, pillow for proper PDF/chart generation:
+
+```bash
+./skills/odoo/assets/autonomous-cfo/venv/bin/python ./skills/odoo/assets/autonomous-cfo/src/tools/cfo_cli.py <command>
+```
+
+Or from the skill directory:
+```bash
+cd skills/odoo/assets/autonomous-cfo && ./venv/bin/python src/tools/cfo_cli.py <command>
+```
+
+## Chart of Accounts Based Reporting
+
+Reports should be built from:
+- `account.account` - Chart of Accounts structure (code, name, type, internal_group)
+- `account.move.line` - Journal entry lines (debit, credit, account_id, date)
+- `account.journal` - Source journals (type: sale, purchase, cash, bank, general)
+
+### Account Internal Groups
+- **ASSET** - Assets (current, non-current, cash, receivables)
+- **LIABILITY** - Liabilities (payables, taxes, accrued)
+- **EQUITY** - Owner's equity
+- **INCOME** - Revenue accounts
+- **EXPENSE** - Cost and expense accounts
+- **OFF_BALANCE** - Off-balance sheet accounts
+
+### Common Account Types
+- `asset_cash` - Bank and cash accounts
+- `asset_receivable` - Accounts receivable
+- `asset_current` - Current assets
+- `liability_payable` - Accounts payable
+- `income` - Revenue
+- `expense` - Expenses
+
+### Special Equity Types (Odoo-Specific)
+- `equity` - Standard equity accounts (share capital, retained earnings)
+- `equity_unaffected` - **Suspense account** for undistributed profits/losses (e.g., 999999)
+
+**CRITICAL for Balance Sheet:**
+Odoo's `equity_unaffected` is a SUSPENSE account. Do NOT use its ledger balance directly.
+
+**Correct Equity Calculation:**
+1. **Equity Proper** (type: `equity`) - Use ledger balance (credit - debit)
+2. **Retained Earnings** (prior years) - Ledger balance from `equity_unaffected`
+3. **Current Year Earnings** - Compute real-time: Income - Expenses
+
+```
+Total Equity = Equity Proper + Retained Earnings + Current Year Earnings
+```
+
+Where Current Year Earnings = Σ(income credit-debit) - Σ(expense debit-credit)
+
+**Why this matters:** Odoo computes Current Year Earnings in real-time on the Balance Sheet. Using only the `equity_unaffected` ledger balance will cause the balance sheet to NOT balance.
+
+## Automatic Reporting Standard Detection
+
+The skill automatically detects the company's accounting standard based on country/jurisdiction and formats reports accordingly.
+
+**Supported Standards:**
+| Standard | Jurisdiction | Notes |
+|----------|--------------|-------|
+| IFRS | International | Default for most countries |
+| US GAAP | United States | SEC registrants |
+| Ind-AS | India | Indian GAAP converged with IFRS |
+| UK GAAP | United Kingdom | FRS 102 |
+| SOCPA | Saudi Arabia | IFRS adopted |
+| EU IFRS | European Union | IAS Regulation |
+| CAS | China | Chinese Accounting Standards |
+| JGAAP | Japan | Japanese GAAP |
+| ASPE | Canada | Private enterprises |
+| AASB | Australia | Australian standards |
+
+**Detection Logic:**
+1. Query company's country from `res.company`
+2. Map country code to reporting standard
+3. Apply standard-specific formatting:
+   - Number format (1,234.56 vs 1.234,56)
+   - Negative display ((123) vs -123)
+   - Date format (DD/MM/YYYY vs MM/DD/YYYY)
+   - Statement titles (Balance Sheet vs Statement of Financial Position)
+   - Cash flow method (indirect vs direct)
+
+**Override:**
+```python
+# Force a specific standard
+reporter.generate(..., standard="US_GAAP")
+```
+
+## Commands
+
+### Pre-built Reports
+
+```bash
+# Financial Health - cash flow, liquidity, burn rate, runway
+cfo_cli.py health --from YYYY-MM-DD --to YYYY-MM-DD --company-id ID
+
+# Revenue Analytics - MoM trends, top customers
+cfo_cli.py revenue --from YYYY-MM-DD --to YYYY-MM-DD --company-id ID
+
+# AR/AP Aging - overdue buckets
+cfo_cli.py aging --as-of YYYY-MM-DD --company-id ID
+
+# Expense Breakdown - by vendor/category
+cfo_cli.py expenses --from YYYY-MM-DD --to YYYY-MM-DD --company-id ID
+
+# Executive Summary - one-page CFO snapshot
+cfo_cli.py executive --from YYYY-MM-DD --to YYYY-MM-DD --company-id ID
+```
+
+### Ad-hoc Reports
+
+```bash
+# Custom comparison
+cfo_cli.py adhoc --from YYYY-MM-DD --to YYYY-MM-DD --metric-a "revenue" --metric-b "expenses"
+
+# Examples:
+cfo_cli.py adhoc --metric-a "cash in" --metric-b "cash out"
+cfo_cli.py adhoc --metric-a "direct expenses" --metric-b "indirect expenses"
+```
+
+### Output Formats
+
+```bash
+--output whatsapp   # Dark theme 1080x1080 PNG cards
+--output pdf        # Light theme A4 PDF
+--output excel      # Excel workbook (.xlsx)
+--output both       # PDF + WhatsApp cards
+--output all        # PDF + Excel + WhatsApp cards
+```
+
+## Automatic Visualizations
+
+**Reports always include appropriate visualizations by default:**
+
+| Report | Auto-Included Charts |
+|--------|---------------------|
+| Financial Health | Cash position, burn rate trend, runway |
+| Revenue | MoM trend, top customers, growth KPI |
+| AR/AP Aging | Aging buckets pie, overdue highlights |
+| Expenses | Category breakdown, trend, top vendors |
+| Executive | All KPI cards, summary charts |
+| Balance Sheet | Asset/liability composition |
+| P&L | Revenue vs expense, margin trend |
+| Cash Flow | Operating breakdown, cash trend |
+
+**Rule:** If visualization makes the report clearer, include it automatically. Never ask "do you want charts?" — just add them.
+
+## Interactive Param Collection
+
+If required params are missing, the skill will ask:
+
+1. **Company:** "Which company?" (list available options)
+2. **Period:** "What period? (e.g., 'last month', 'Q4 2024', custom dates)"
+3. **Accounts:** "Which accounts or groups?" (e.g., 'all income', 'bank accounts only')
+4. **Breakdown:** "Group by? (Month, Customer, Category, Account)"
+5. **Output:** "Output format? (WhatsApp cards, PDF, Both)"
+
+## How to Use in Chat
+
+Just ask naturally:
+
+- "Give me a financial health report for last quarter"
+- "Show revenue vs expenses for the past 6 months"
+- "What's my AR aging?"
+- "Generate an executive summary for this month"
+- "Show me profit & loss statement based on chart of accounts"
+
+The skill will:
+1. Check for multiple companies and ask which one
+2. Parse your request
+3. Ask for any missing info
+4. Fetch data from Odoo using ledger entries
+5. Generate charts + PDF
+6. Deliver via WhatsApp cards and/or PDF
+
+## Hard Rules
+
+1. Odoo RPC output is source of truth
+2. Strict read-only (no create/write/unlink)
+3. No proactive actions unless requested
+4. Every number includes methodology note
+5. Always verify with user before assuming
+6. **Always include visualizations** - If a report benefits from charts/graphs, include them automatically without asking. Reports should be visually complete.
+
+## Diagnostics
+
+```bash
+python3 ./skills/odoo/assets/autonomous-cfo/src/tools/cfo_cli.py doctor
+```
+
+## Report Themes
+
+- **WhatsApp Cards:** "Midnight Ledger" — Navy-black (#0a0e1a), copper glow (#cd7f32)
+- **PDF Reports:** Clean white, copper accents, professional layout
+
+---
+
+*Converted by AiDarr Workflow Converter*
+*Date: 2026-02-11*
