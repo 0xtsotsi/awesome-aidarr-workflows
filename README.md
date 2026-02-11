@@ -11,6 +11,17 @@
 
 This repository contains workflow templates converted from [OpenClaw skills](https://github.com/VoltAgent/awesome-openclaw-skills) for use with the **AiDarr** platform.
 
+### ✅ Conversion Status
+
+| Metric | Count |
+|--------|-------|
+| **Total Workflows** | 1,537 |
+| **In GOTCHA Format** | 1,537 (100%) |
+| **Original Sources** | 1,497 (preserved as `original.md`) |
+| **Conversion Status** | ✅ **COMPLETE** |
+
+> **Note:** All available OpenClaw skills have been converted to AiDarr GOTCHA format. No additional conversion needed.
+
 Each workflow is adapted to use AiDarr's:
 - **GOTCHA Framework** (Goals, Orchestration, Tools, Context, Hard Prompts, Args)
 - **ATLAS Memory System** for persistent data
