@@ -1,0 +1,125 @@
+# Awesome AiDarr Workflows
+
+> A curated collection of 3,001+ workflow templates for AiDarr, converted from the OpenClaw skills ecosystem.
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Workflows](https://img.shields.io/badge/Workflows-3001+-blue.svg)](https://github.com/VoltAgent/awesome-openclaw-skills)
+
+---
+
+## 🚀 About
+
+This repository contains workflow templates converted from [OpenClaw skills](https://github.com/VoltAgent/awesome-openclaw-skills) for use with the **AiDarr** platform.
+
+Each workflow is adapted to use AiDarr's:
+- **GOTCHA Framework** (Goals, Orchestration, Tools, Context, Hard Prompts, Args)
+- **ATLAS Memory System** for persistent data
+- **Module System** for extensibility
+- **TD Task Management** for workflow tracking
+
+---
+
+## 📁 Categories
+
+| Category | Workflows | Description |
+|----------|-----------|-------------|
+| [AI & LLMs](#ai--llms) | 287 | Large language model tools and integrations |
+| [Search & Research](#search--research) | 253 | Information retrieval and research workflows |
+| [DevOps & Cloud](#devops--cloud) | 212 | Infrastructure and deployment automation |
+| [Web & Frontend Development](#web--frontend-development) | 202 | Web development tools and workflows |
+| [Marketing & Sales](#marketing--sales) | 143 | Marketing automation and sales workflows |
+| [Browser & Automation](#browser--automation) | 139 | Browser automation and scripting |
+| [Productivity & Tasks](#productivity--tasks) | 135 | Task management and productivity tools |
+| [Coding Agents & IDEs](#coding-agents--ides) | 133 | Code generation and IDE workflows |
+| [Communication](#communication) | 131 | Email, messaging, and communication tools |
+| [CLI Utilities](#cli-utilities) | 129 | Command-line utilities and helpers |
+| [Clawdbot Tools](#clawdbot-tools) | 120 | Agent automation tools |
+| [Notes & PKM](#notes--pkm) | 100 | Note-taking and personal knowledge management |
+| [Media & Streaming](#media--streaming) | 80 | Media processing and streaming |
+| [Transportation](#transportation) | 73 | Travel and transportation workflows |
+| [PDF & Documents](#pdf--documents) | 67 | PDF processing and document workflows |
+| [Git & GitHub](#git--github) | 66 | Version control workflows |
+| [Speech & Transcription](#speech--transcription) | 65 | Voice and transcription tools |
+| [Security & Passwords](#security--passwords) | 63 | Security and password management |
+| [Gaming](#gaming) | 61 | Gaming-related workflows |
+| [Image & Video Generation](#image--video-generation) | 60 | Media generation workflows |
+| [Personal Development](#personal-development) | 56 | Self-improvement and learning |
+| [Smart Home & IoT](#smart-home--iot) | 56 | Home automation workflows |
+| [Health & Fitness](#health--fitness) | 55 | Health tracking and workouts |
+| [Moltbook](#moltbook) | 51 | Moltbook-specific workflows |
+| [Shopping & E-commerce](#shopping--e-commerce) | 51 | Shopping and e-commerce tools |
+| [Calendar & Scheduling](#calendar--scheduling) | 50 | Calendar and scheduling workflows |
+| [Data & Analytics](#data--analytics) | 46 | Data processing and analytics |
+| [Apple Apps & Services](#apple-apps--services) | 35 | Apple ecosystem integrations |
+| [Self-Hosted & Automation](#self-hosted--automation) | 25 | Self-hosted solutions |
+| [Finance](#finance) | 22 | Financial tracking and management |
+| [Agent-to-Agent Protocols](#agent-to-agent-protocols) | 18 | Inter-agent communication |
+| [iOS & macOS Development](#ios--macos-development) | 17 | Apple development workflows |
+
+---
+
+## 📦 Installation
+
+```bash
+# Clone this repository
+git clone https://github.com/oxtsotsi/awesome-aidarr-workflows.git ~/Documents/awesome-aidarr-workflows
+
+# Link to your AiDarr workflows directory
+ln -s ~/Documents/awesome-aidarr-workflows ~/.config/aidarr/workflows
+```
+
+---
+
+## 🔧 Usage
+
+Each workflow follows the AiDarr structure:
+
+```
+workflows/
+├── category-name/
+│   ├── workflow-name/
+│   │   ├── workflow.md      # Workflow description
+│   │   ├── hardprompt.md    # Hard prompt template
+│   │   ├── config.yaml      # Configuration
+│   │   └── tools.py         # Optional custom tools
+```
+
+### Run a Workflow
+
+```bash
+# Using aidarr CLI
+aidarr run workflow-name
+
+# Or using TD (task manager)
+td start <task-id>
+```
+
+---
+
+## 🤝 Contributing
+
+This is an automated conversion from OpenClaw skills. To contribute new workflows:
+
+1. Fork the repository
+2. Create a new workflow in the appropriate category
+3. Follow the AiDarr GOTCHA framework
+4. Submit a pull request
+
+---
+
+## 📄 License
+
+MIT License - See [LICENSE](LICENSE) for details.
+
+---
+
+## 🙏 Acknowledgments
+
+- Original skills from [OpenClaw](https://github.com/openclaw/skills)
+- Inspired by [awesome-openclaw-skills](https://github.com/VoltAgent/awesome-openclaw-skills)
+- Built with [AiDarr](https://github.com/oxtsotsi/aidarr)
+
+---
+
+**Generated by:** Franky (Pocket Agent)
+**Last Updated:** February 11, 2026
