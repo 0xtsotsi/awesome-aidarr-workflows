@@ -1,9 +1,9 @@
 # Awesome AiDarr Workflows
 
-> A curated collection of **3,049** workflow templates for AiDarr, converted from the OpenClaw skills ecosystem.
+> A curated collection of **3,050** workflow templates for AiDarr, converted from the OpenClaw skills ecosystem.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Workflows](https://img.shields.io/badge/Workflows-3049-blue.svg)](https://github.com/0xtsotsi/awesome-aidarr-workflows)
+[![Workflows](https://img.shields.io/badge/Workflows-3050-blue.svg)](https://github.com/0xtsotsi/awesome-aidarr-workflows)
 
 ---
 
@@ -15,13 +15,13 @@ This repository contains workflow templates converted from [OpenClaw skills](htt
 
 | Metric | Count |
 |--------|-------|
-| **Total Workflows** | 3,049 |
-| **In GOTCHA Format** | 3,049 (100%) |
+| **Total Workflows** | 3,050 |
+| **In GOTCHA Format** | 3,050 (100%) |
 | **Original Sources** | 1,497 (preserved as `original.md`) |
-| **New Sources Added** | x-research-skill (1), superpowers (14) |
+| **New Sources Added** | x-research-skill (1), superpowers (14), just-bash (1) |
 | **Conversion Status** | ✅ **COMPLETE + NEW ADDITIONS** |
 
-> **Note:** All available OpenClaw skills have been converted to AiDarr GOTCHA format. Additional workflows from x-research-skill and superpowers repositories have been added.
+> **Note:** All available OpenClaw skills have been converted to AiDarr GOTCHA format. Additional workflows from x-research-skill, superpowers, and just-bash repositories have been added.
 
 Each workflow is adapted to use AiDarr's:
 - **GOTCHA Framework** (Goals, Orchestration, Tools, Context, Hard Prompts, Args)
