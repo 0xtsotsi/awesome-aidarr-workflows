@@ -1,0 +1,10 @@
+# OPC Skills Python Dependencies
+
+# Image generation (nanobanana skill)
+google-genai>=1.0.0
+
+# Image manipulation (banner-creator, logo-creator skills)
+Pillow>=10.0.0
+
+# Additional utilities
+requests>=2.31.0
